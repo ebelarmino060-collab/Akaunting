@@ -29,6 +29,8 @@ mix
     .options({
         terser: {
             extractComments: false,
+            // Cap minifier workers on memory-constrained builds (e.g. Docker)
+            parallel: process.env.MIX_TERSER_PARALLEL ? Number(process.env.MIX_TERSER_PARALLEL) : true,
         }
     })
 

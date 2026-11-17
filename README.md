@@ -35,6 +35,30 @@ php artisan install --db-name="akaunting" --db-username="root" --db-password="pa
 
 * Create sample data (optional): `php artisan sample-data:seed`
 
+### Docker
+
+Docker Desktop and Docker Compose are required. Start the application and MySQL with:
+
+```bash
+docker compose up --build
+```
+
+Open [http://localhost:8080](http://localhost:8080) and complete the Akaunting installer. On the
+database step enter host `db`, database `akaunting`, username `akaunting` and password
+`akaunting` (the defaults below); do not use `localhost` as the database host from inside the
+app container.
+
+The first build compiles the front-end assets with webpack, which takes around 10 minutes and
+needs roughly 2 GB of free memory in Docker Desktop. If it fails with "cannot allocate memory",
+stop other containers (`docker compose stop`) and build again.
+
+The Compose setup persists MySQL data and application storage in named volumes. To stop the
+containers while keeping data, run `docker compose down`. To remove all Docker-managed data,
+including the database, run `docker compose down -v`.
+
+The default development credentials can be overridden in the local, ignored `.env` file:
+`APP_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`, and `DB_ROOT_PASSWORD`.
+
 ## Contributing
 
 Please, be very clear on your commit messages and Pull Requests, empty Pull Request messages may be rejected without reason.

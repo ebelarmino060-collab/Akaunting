@@ -1,0 +1,18 @@
+**/.git
+**/.env
+**/.env.*
+!akaunting-master/.env.example
+**/vendor
+**/node_modules
+akaunting-master/storage/logs/*
+akaunting-master/storage/framework/cache/*
+akaunting-master/storage/framework/sessions/*
+akaunting-master/storage/framework/views/*
+akaunting-master/bootstrap/cache/*
+*.docx
+# Incomplete duplicate of the app at the repo root; the image is built from akaunting-master/
+app
+bootstrap
+storage
+artisan
+index.php

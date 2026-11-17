@@ -1,0 +1,45 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${APP_PORT:-8080}:80"
+    environment:
+      APP_URL: ${APP_URL:-http://localhost:8080}
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: ${DB_DATABASE:-akaunting}
+      DB_USERNAME: ${DB_USERNAME:-akaunting}
+      DB_PASSWORD: ${DB_PASSWORD:-akaunting}
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./akaunting-master:/var/www/html
+      - composer_vendor:/var/www/html/vendor
+      - app_storage:/var/www/html/storage
+
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-akaunting}
+      MYSQL_USER: ${DB_USERNAME:-akaunting}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-akaunting}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+    ports:
+      - "${DB_FORWARD_PORT:-3307}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  composer_vendor:
+  app_storage:
+  mysql_data:

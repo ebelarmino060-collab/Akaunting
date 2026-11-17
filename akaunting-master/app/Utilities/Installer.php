@@ -223,10 +223,20 @@ class Installer
         $db = Config::get('database.connections.' . $con);
 
         $db['host'] = $host;
+        $db['port'] = $port;
         $db['database'] = $database;
         $db['username'] = $username;
         $db['password'] = $password;
         $db['prefix'] = $prefix;
+
+        // The read/write hosts take precedence over 'host', so they must be updated as well
+        if (isset($db['read'])) {
+            $db['read']['host'] = [$host];
+        }
+
+        if (isset($db['write'])) {
+            $db['write']['host'] = [$host];
+        }
 
         Config::set('database.connections.' . $con, $db);
 
