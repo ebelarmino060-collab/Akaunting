@@ -94,5 +94,8 @@ _ide_helper_models.php
 .phpunit.result.cache
 modules/*
 !modules/.gitkeep
+# Bundled core modules, installed by the setup wizard
+!modules/OfflinePayments
+!modules/PaypalStandard
 .laravelstatsrc
 .DS_Store
